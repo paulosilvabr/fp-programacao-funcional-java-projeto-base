@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+
 /**
  * Esta é uma classe para você poder implementar as atividades propostas no README.
  * Você <b>NÃO</b> deve alterar:
@@ -32,7 +34,15 @@ public class Aula06 extends Aula {
      */
     private final Predicate<Estudante> mulheresAprovadas = ((Predicate<Estudante>) Estudante::isMulher)
             .and(Estudante::hasCurso)
-            .and(Estudante::isAprovado); //TODO: Atribua aqui o predicado composto com o filtro indicado acima
+            .and(Estudante::isAprovado);
+
+    private final Comparator<Estudante> nomeCursoComparadorInvertido = comparing(
+            (Estudante e) -> e.getCurso().getNome())
+            .reversed();
+
+    private final Comparator<Estudante> nomeCursoComparador = comparing((Estudante e) -> e.getCurso().getNome());
+
+    //TODO: Atribua aqui o predicado composto com o filtro indicado acima
 
     /**
      * Você pode chamar os métodos existentes e outros que você criar aqui,
@@ -76,7 +86,7 @@ public class Aula06 extends Aula {
         // TODO: Você precisa implementar este método. Apague estas linhas e escreva o código correto.
         return estudantes.stream()
                 .filter(mulheresAprovadas)
-                .sorted(Comparator.comparing((Estudante e) -> e.getCurso().getNome())
+                .sorted(nomeCursoComparador
                         .thenComparing(Estudante::getNota))
                 .toList();
     }
@@ -91,7 +101,7 @@ public class Aula06 extends Aula {
         // TODO: Você precisa implementar este método. Apague estas linhas e escreva o código correto.
         return estudantes.stream()
                 .filter(mulheresAprovadas)
-                .sorted(Comparator.comparing((Estudante e) -> e.getCurso().getNome()).reversed()
+                .sorted(nomeCursoComparadorInvertido
                         .thenComparing(Estudante::getNota))
                 .toList();
     }
@@ -120,8 +130,8 @@ public class Aula06 extends Aula {
         // TODO: Você precisa implementar este método. Apague estas linhas e escreva o código correto.
         return estudantes.stream()
                 .filter(mulheresAprovadas)
-                .sorted(Comparator.comparing((Estudante e) -> e.getCurso().getNome()).reversed()
-                        .thenComparing(Comparator.comparing(Estudante::getNota).reversed()))
+                .sorted(nomeCursoComparadorInvertido
+                        .thenComparing(comparing(Estudante::getNota).reversed()))
                 .toList();
     }
 
@@ -135,8 +145,8 @@ public class Aula06 extends Aula {
         // TODO: Você precisa implementar este método. Apague estas linhas e escreva o código correto.
         return estudantes.stream()
                 .filter(mulheresAprovadas)
-                .sorted(Comparator.comparing((Estudante e) -> e.getCurso().getNome())
-                        .thenComparing(Comparator.comparing(Estudante::getNota).reversed()))
+                .sorted(nomeCursoComparador
+                        .thenComparing(comparing(Estudante::getNota).reversed()))
                 .toList();
     }
 }

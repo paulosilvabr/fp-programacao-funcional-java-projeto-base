@@ -1,6 +1,6 @@
 package exercicios;
 
-import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Representa um aluno em uma instituição de ensino.
@@ -8,7 +8,16 @@ import java.util.stream.Stream;
  *
  * @author Manoel Campos da Silva Filho
  */
-public class Estudante {
+public class Estudante implements Comparable<Estudante> {
+    @Override
+    public int compareTo(@NotNull Estudante e) {
+        if (e == null) {
+            return 1;
+        }
+
+        return Double.compare(this.nota, e.nota);
+    }
+
     private int id;
     private String nome;
     private char sexo;
